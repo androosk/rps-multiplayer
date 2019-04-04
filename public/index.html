@@ -13,9 +13,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<header class="container-fluid">
+<header class="container-fluid" id="heading">
   <h1>Rock/Paper/Scissors</h1>
 </header>
+
+<div id="main-body">
 
 <section id="player-area">
   <div class="row">
@@ -30,7 +32,7 @@
 </div>
 
 <body>
-<div class="row">
+<div class="row" id="game-block">
   <div class="col-3"></div>
   <img id="game-block1" class="col-2" data-name="rock" src="assets/images/SmallMediumGreyRock-1-275x275.jpg">
   <img id="game-block2" class="col-2" data-name="paper" src="assets/images/10240-1009-1-2ww-m.jpg">
@@ -42,24 +44,38 @@
   <div class="col-4">
     <div id="stats-area" class="info-area">
       <div class="row">
-        <div class="col-6" id="player-one-stats"></div>
-        <div class="col-6" id="player-two-stats"></div>
+        <div class="col-6 stats-text" id="player-one-stats"></div>
+          <h3>Player 1</h3>
+          <ul class="unstyled">
+            <li class = "stats-text">Name: </li><p class="stats-text" id="playa1-name"></p>
+            <li class = "stats-text">Wins: </li><p class="stats-text" id="playa1-wins"></p>
+            <li class = "stats-text">Losses: </li><p class="stats-text" id="playa1-losses"></p>
+            <li class = "stats-text">Ties: </li><p class="stats-text" id="playa1-ties"></p>
+          </ul>
+        <div class="col-6 stats-text" id="player-two-stats"></div>
+          <h3>Player 2</h3>
+          <ul class="unstyled">
+            <li class = "stats-text">Name: </li><p class="stats-text" id="playa2-name"></p>
+            <li class = "stats-text">Wins: </li><p class="stats-text" id="playa2-wins"></p>
+            <li class = "stats-text">Losses: </li><p class="stats-text" id="playa2-losses"></p>
+            <li class = "stats-text">Ties: </li><p class="stats-text" id="playa2-ties"></p>
+          </ul>
       </div>
     </div>
   </div>
   <div class="col-4">
-    <div id="chat-area" class="info-area"></div>
+    <div id="chat-area" class="info-area chat-scroll"></div>
     <div class="row">
       <div class="col-12">
         <div class="chat-invite">
-          <p>Type your message: <input id="chat-message"></p>
+          <p class="chat-text">Chat with your opponent: <input id="chat-message"></p>
         </div>
 
       </div>
     </div>
   </div>
 </div>
-
+</div>
 
 <!-- Firebase web interface -->
 <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
