@@ -31,6 +31,10 @@
   <p>To Play, Please Enter Your Name: <input id="player-name"></p>
 </div>
 
+<div id="game-start-button" class="container-fluid">
+    <p class="game-button">CLICK HERE TO START</p>
+</div>
+
 <body>
 <div class="row" id="game-block">
   <div class="col-3"></div>
@@ -44,22 +48,24 @@
   <div class="col-4">
     <div id="stats-area" class="info-area">
       <div class="row">
-        <div class="col-6 stats-text" id="player-one-stats"></div>
-          <h3>Player 1</h3>
+        <div class="col-6" id="player-one-stats">
+          <p class="stats-text">Player 1</p>
           <ul class="unstyled">
-            <li class = "stats-text">Name: </li><p class="stats-text" id="playa1-name"></p>
-            <li class = "stats-text">Wins: </li><p class="stats-text" id="playa1-wins"></p>
-            <li class = "stats-text">Losses: </li><p class="stats-text" id="playa1-losses"></p>
-            <li class = "stats-text">Ties: </li><p class="stats-text" id="playa1-ties"></p>
+            <li id="playa1-name" class = "stats-text"></li>
+            <li id="playa1-wins" class = "stats-text"></li>
+            <li id="playa1-losses" class = "stats-text"></li>
+            <li id="playa1-ties" class = "stats-text"></li>
           </ul>
-        <div class="col-6 stats-text" id="player-two-stats"></div>
-          <h3>Player 2</h3>
+        </div>
+        <div class="col-6" id="player-two-stats">
+          <p class="stats-text">Player 2</p>
           <ul class="unstyled">
-            <li class = "stats-text">Name: </li><p class="stats-text" id="playa2-name"></p>
-            <li class = "stats-text">Wins: </li><p class="stats-text" id="playa2-wins"></p>
-            <li class = "stats-text">Losses: </li><p class="stats-text" id="playa2-losses"></p>
-            <li class = "stats-text">Ties: </li><p class="stats-text" id="playa2-ties"></p>
+            <li id="playa2-name" class = "stats-text"></li>
+            <li id="playa2-wins" class = "stats-text"></li>
+            <li id="playa2-losses" class = "stats-text"></li>
+            <li id="playa2-ties" class = "stats-text"></li>
           </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -68,9 +74,8 @@
     <div class="row">
       <div class="col-12">
         <div class="chat-invite">
-          <p class="chat-text">Chat with your opponent: <input id="chat-message"></p>
+          <p id="name-here" class="chat-text"> chat with your opponent: <input id="chat-message"></p>
         </div>
-
       </div>
     </div>
   </div>
