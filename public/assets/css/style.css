@@ -3,7 +3,7 @@ h1, h2 {
   color: whitesmoke;
 }
 h1 {
-  font-size: 120px;
+  font-size: 100px;
   text-align: center;
   background-color: none;
 }
@@ -42,9 +42,28 @@ input {
 .info-area {
   height: 200px;
   width: 100%;
-  /* overflow: auto; */
   border-radius: 10px;
   border: 4px solid rgb(57, 254, 251);
   background-color: rgb(57, 254, 251, .5);
   padding: 10px, 10px, 10px, 10px
+}
+.chat-scroll {
+  overflow: auto;
+}
+.chat-text {
+  color: whitesmoke;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: left;
+  padding: 2px 2px 2px 4px;
+}
+.stats-text {
+  color: whitesmoke;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: left;
+  padding: 2px 2px 2px 4px;
+}
+.unstyled {
+  list-style-type: none;
 }
