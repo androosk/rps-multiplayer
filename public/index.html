@@ -3,9 +3,7 @@
 
 <head>
   <title>Multi Player RoChamBeau</title>
-  <!-- if using bootstrap 4.3.1 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!--if creating stylesheet-->
   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -13,83 +11,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<header class="container-fluid" id="heading">
-  <h1>Rock/Paper/Scissors</h1>
-</header>
+  <header class="container-fluid" id="heading">
+    <h1>Rock/Paper/Scissors</h1>
+  </header>
 
 <div id="main-body">
 
-<section id="player-area">
-  <div class="row">
-    <div class="col-3"></div>
-    <div class="col-3"><p class="player-box" id="playerone-idbox"></p></div>
-    <div class="col-3"><p class="player-box" id="playertwo-idbox"></p></div>
+  <section id="player-area">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-3"><p class="player-box" id="playerone-idbox"></p></div>
+      <div class="col-3"><p class="player-box" id="playertwo-idbox"></p></div>
+    </div>
+  </section>
+
+  <div id="player-div">
+    <p>To Play, Please Enter Your Name: <input id="player-name"></p>
   </div>
-</section>
 
-<div id="player-div">
-  <p>To Play, Please Enter Your Name: <input id="player-name"></p>
-</div>
-
-<div id="game-start-button" class="container-fluid">
-    <p class="game-button">CLICK HERE TO START</p>
-</div>
+  <div id="game-start-button" class="container-fluid">
+      <p id="game-button-text" class="game-button">CLICK HERE TO START</p>
+  </div>
 
 <body>
-<div class="row" id="game-block">
-  <div class="col-3"></div>
-  <img id="game-block1" class="col-2" data-name="rock" src="assets/images/SmallMediumGreyRock-1-275x275.jpg">
-  <img id="game-block2" class="col-2" data-name="paper" src="assets/images/10240-1009-1-2ww-m.jpg">
-  <img id="game-block3" class="col-2" data-name="scissors" src="assets/images/kisspng-scissors-clip-art-public-domain-drawings-5aac3e7e60cd00.8160841115212376303965.jpg">
-</div>
+  <div class="row" id="game-block">
+    <div class="col-3"></div>
+    <img id="game-block1" class="col-2" src="assets/images/SmallMediumGreyRock-1-275x275.jpg">
+    <img id="game-block2" class="col-2" src="assets/images/10240-1009-1-2ww-m.jpg">
+    <img id="game-block3" class="col-2" src="assets/images/kisspng-scissors-clip-art-public-domain-drawings-5aac3e7e60cd00.8160841115212376303965.jpg">
+  </div>
 
-<div class="row" id="chat-dialog">
-  <div class="col-2"></div>
-  <div class="col-4">
-    <div id="stats-area" class="info-area">
+  <div class="row" id="chat-dialog">
+    <div class="col-2"></div>
+    <div class="col-4">
+      <div id="stats-area" class="info-area">
+        <div class="row">
+          <div class="col-6" id="player-one-stats">
+            <p class="stats-text">Player 1</p>
+            <ul class="unstyled">
+              <li id="playa1-name" class = "stats-text"></li>
+              <li id="playa1-wins" class = "stats-text"></li>
+              <li id="playa1-losses" class = "stats-text"></li>
+              <li id="playa1-ties" class = "stats-text"></li>
+            </ul>
+          </div>
+          <div class="col-6" id="player-two-stats">
+            <p class="stats-text">Player 2</p>
+            <ul class="unstyled">
+              <li id="playa2-name" class = "stats-text"></li>
+              <li id="playa2-wins" class = "stats-text"></li>
+              <li id="playa2-losses" class = "stats-text"></li>
+              <li id="playa2-ties" class = "stats-text"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div id="chat-area" class="info-area chat-scroll"></div>
       <div class="row">
-        <div class="col-6" id="player-one-stats">
-          <p class="stats-text">Player 1</p>
-          <ul class="unstyled">
-            <li id="playa1-name" class = "stats-text"></li>
-            <li id="playa1-wins" class = "stats-text"></li>
-            <li id="playa1-losses" class = "stats-text"></li>
-            <li id="playa1-ties" class = "stats-text"></li>
-          </ul>
-        </div>
-        <div class="col-6" id="player-two-stats">
-          <p class="stats-text">Player 2</p>
-          <ul class="unstyled">
-            <li id="playa2-name" class = "stats-text"></li>
-            <li id="playa2-wins" class = "stats-text"></li>
-            <li id="playa2-losses" class = "stats-text"></li>
-            <li id="playa2-ties" class = "stats-text"></li>
-          </ul>
+        <div class="col-12">
+          <div class="chat-invite">
+            <p id="name-here" class="chat-text">, chat with your opponent: <input id="chat-message"></p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-4">
-    <div id="chat-area" class="info-area chat-scroll"></div>
-    <div class="row">
-      <div class="col-12">
-        <div class="chat-invite">
-          <p id="name-here" class="chat-text"> chat with your opponent: <input id="chat-message"></p>
-        </div>
-      </div>
-    </div>
   </div>
-</div>
-</div>
 
-<!-- Firebase web interface -->
-<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
-<script src="assets/javascript/fbconfig.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="assets/javascript/app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+  <script src="assets/javascript/fbconfig.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="assets/javascript/app.js"></script>
 </body>
 </html>
