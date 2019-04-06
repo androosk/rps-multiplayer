@@ -6,6 +6,7 @@ var pTwo = "waiting for player 2"
 var yourName = ""
 var playa = ""
 var localPlayer = ""
+var otherPlayer = ""
 var player1 = ""
 var player2 = ""
 var newVar = null
@@ -13,6 +14,10 @@ var playerName = ""
 var currentMessage = ""
 var messenger = ""
 var player = ""
+var gamePlayTrue = null
+var buttonName = ""
+var playerOneMove = ""
+var playerTwoMove = ""
 
 $("#game-start-button").toggle()
 $("#chat-dialog").toggle()
@@ -32,17 +37,30 @@ ref.once("value")
       playerStats()
     }
   })
+gameDatabase.ref("inPlay/").on("value", function(snapshot) {
+  var refErence = $("#game-button-text").attr("state")
+  if (snapshot.child("yesInPlay").val() === "true") {
+    gamePlayYeah()
+  }
+  else if (refErence === "play") {
+    $("#game-button-text").attr("state", "")
+    cleanUpOnAisle6()
+  }
+})
+
 //Listen for change in the player object in firebase
 gameDatabase.ref("/players/").on("value", function(snapshot) {
+  newVar = snapshot.val()
   if (snapshot.child("playerOne").exists() && player1 === "") {
     player1 = "exists"
-    newVar = snapshot.val()
     $("#playerone-idbox").text("Player 1: " + newVar.playerOne.name)
   }
   else if (snapshot.child("playerTwo").exists() && player2 === "") {
     player2 = "exists"
-    newVar = snapshot.val()
     $("#playertwo-idbox").text("Player 2: " + newVar.playerTwo.name)
+  }
+  else if (snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists() && newVar.playerOne.move != "" && newVar.playerTwo.move != "") {
+    evaluateMove()
   }
 })
 //Listen for player one chat and add to chat box
@@ -67,6 +85,7 @@ gameDatabase.ref("/players/").on("child_removed", function(snapshot) {
     gameDatabase.ref("/chats/chatTwo/" + chatKey).set(chatMess)
     player1 = ""
     $("#playerone-idbox").text("Player 1: waiting for player 1")
+    gameDatabase.ref().child("/inPlay/yesInPlay").set("false")
   }
   else {
     var chatMess = snapshot.val().name + " has left the game"
@@ -74,6 +93,7 @@ gameDatabase.ref("/players/").on("child_removed", function(snapshot) {
     gameDatabase.ref("/chats/chatOne/" + chatKey).set(chatMess)
     player2 = ""
     $("#playertwo-idbox").text("Player 2: waiting for player 2")
+    gameDatabase.ref().child("/inPlay/yesInPlay").set("false")
   }
 })
 //Listen for changes in player stats
@@ -81,6 +101,7 @@ gameDatabase.ref("/players/").on("value", function(snapshot) {
   newVar = snapshot.val()
   playerStats()
 })
+// gameDatabase.ref("/inPlay/")
 // Listen for player name to be entered
 $("#player-name").on("keypress", (event) => {
   if (event.which === 13) {
@@ -101,18 +122,32 @@ $("#chat-message").on("keypress", (event) => {
   }
 })
 $("#game-start-button").click(function () {
-  if (player2 === "exists") {
-  console.log("Fucks yeah!")
+  if (player1 === "exists" && player2 === "exists") {
+  gamePlayTrue = {
+    yesInPlay : "true"
+  }
+  gameDatabase.ref().child("inPlay/").set(gamePlayTrue)
   }
   else {
-    console.log("Shit no, bro")
+    alert("You're waiting for another player to join")
   }
 })
-//Listen for click on rock paper or scissors
-// $("#game-block1, #game-block2, #game-block3").on("click", function(){
-//   event.preventDefault()
-//   var buttonName = $(this).attr("data-name")
-// })
+// function moveListen() {
+$("#game-block1, #game-block2, #game-block3").on("click", function(){
+  event.preventDefault()
+  buttonName = $(this).attr("data-name")
+  if (buttonName != undefined) {
+    var localMover = "players/" + localPlayer + "/move"
+    gameDatabase.ref().child(localMover).set(buttonName)
+  }
+  if (localPlayer === "playerOne"  && newVar.playerOne.move != "" && newVar.playerTwo.move === "") {
+    $("#game-button-text").text("WAITING FOR YOUR OPPONENT")
+  }
+  if (localPlayer === "playerTwo"  && newVar.playerTwo.move != "" && newVar.playerOne.move === "") {
+    $("#game-button-text").text("WAITING FOR YOUR OPPONENT")
+  }
+})
+
 function addToChat() {
   var chatMess = (messenger + " said " + currentMessage)
   if (player === "one") {
@@ -148,6 +183,8 @@ function checkPlayer() {
       $("#player-div").toggle()
       $("#name-here").prepend(playerName)
       $("#game-start-button").toggle()
+      localPlayer = "playerOne"
+      otherPlayer = "playerTwo"
       playerName = ""
       goGameScreen()
       playerStats()
@@ -174,6 +211,8 @@ function checkPlayer() {
     $("#player-div").toggle()
     $("#name-here").prepend(playerName)
     $("#game-start-button").toggle()
+    localPlayer = "playerTwo"
+    otherPlayer = "playerOne"
     playerName = ""
     goGameScreen()
   }
@@ -228,4 +267,109 @@ function playerStats() {
 function gameAlreadyInPlay() {
   $("#main-body").hide()
   $("#heading").append("<h1>Game In Play Come Back Later</h1>")
+}
+function gamePlayYeah() {
+  fadeRock()
+  setTimeout(fadePaper, 1000)
+  setTimeout(fadeScissors, 2000)
+  setTimeout(shoot, 3000)
+}
+
+function fadeRock() {
+  $("#game-block1").fadeTo(500, 0.5)
+  $("#game-block1").fadeTo(500, 1.0)
+  $("#game-button-text").attr("style", "color: red; font-weight: bolder;")
+  $("#game-button-text").text("ROCK")
+  $("#game-button-text").attr("state", "play")
+}
+
+function fadePaper() {
+  var refErence = $("#game-button-text").attr("state")
+  if (refErence === "play") {
+    $("#game-block2").fadeTo(500, 0.5)
+    $("#game-block2").fadeTo(500, 1.0)
+    $("#game-button-text").text("PAPER")
+  }
+}
+function fadeScissors() {
+  var refErence = $("#game-button-text").attr("state")
+  if (refErence === "play") {
+    $("#game-block3").fadeTo(500, 0.5)
+    $("#game-block3").fadeTo(500, 1.0)
+    $("#game-button-text").text("SCISSORS")
+  }
+}
+function shoot () {
+  var refErence = $("#game-button-text").attr("state")
+  if (refErence === "play") {
+    $("#game-button-text").text("SHOOT!")
+    $("#game-block1").attr("data-name", "rock")
+    $("#game-block2").attr("data-name", "paper")
+    $("#game-block3").attr("data-name", "scissors")
+  }
+}
+// function resetState() {
+//   $("#game-button-text").attr("style", "color: white; font-weight: normal;")
+//   $("#game-button-text").text("CLICK HERE TO START")
+// }
+function evaluateMove() {
+  playerOneMove = newVar.playerOne.move
+  playerTwoMove = newVar.playerTwo.move
+  gameDatabase.ref().child("players/playerOne/move").set("")
+  gameDatabase.ref().child("players/playerTwo/move").set("")
+
+  if (playerOneMove === "rock" && playerTwoMove === "paper") {
+    playerTwoWins()
+  }
+  else if (playerOneMove === "rock" && playerTwoMove === "scissors") {
+    playerOneWins()
+  }
+  else if (playerOneMove === "paper" && playerTwoMove === "rock") {
+    playerOneWins()
+  }
+  else if (playerOneMove === "paper" && playerTwoMove === "scissors") {
+    playerTwoWins()
+  }
+  else if (playerOneMove === "scissors" && playerTwoMove === "paper") {
+    playerOneWins()
+  }
+  else if (playerOneMove === "scissors" && playerTwoMove === "rock") {
+    playerTwoWins()
+  }
+  else if (playerOneMove === playerTwoMove) {
+    var ties1 = newVar.playerOne.ties + 1
+    var ties2 = newVar.playerTwo.ties + 1
+    gameDatabase.ref().child("players/playerOne/ties").set(ties1)
+    gameDatabase.ref().child("players/playerTwo/ties").set(ties2)
+    $("#game-button-text").text("This round has ended in a tie")
+    setTimeout(cleanUpOnAisle6, 3000)
+  }
+}
+
+function playerOneWins(){
+  var winName = newVar.playerOne.name
+  var loser = newVar.playerOne.wins +1
+  var winner = newVar.playerTwo.losses +1
+  gameDatabase.ref().child("players/playerOne/wins").set(winner)
+  gameDatabase.ref().child("players/playerTwo/losses").set(loser)
+  $("#game-button-text").text(winName + " has won this round!")
+  setTimeout(cleanUpOnAisle6, 3000)
+}
+function playerTwoWins(){
+  var winName = newVar.playerTwo.name
+  var loser = newVar.playerOne.losses +1
+  var winner = newVar.playerTwo.wins +1
+  gameDatabase.ref().child("players/playerOne/losses").set(loser)
+  gameDatabase.ref().child("players/playerTwo/wins").set(winner)
+  $("#game-button-text").text(winName + " has won this round!")
+  setTimeout(cleanUpOnAisle6, 3000)
+}
+function cleanUpOnAisle6(){
+  gameDatabase.ref().child("inPlay/yesInPlay").set("false")
+  buttonName = ""
+  $("#game-block1").removeAttr("data-name")
+  $("#game-block2").removeAttr("data-name")
+  $("#game-block3").removeAttr("data-name")
+  $("#game-button-text").attr("style", "color: white; font-weight: normal;")
+  $("#game-button-text").text("CLICK HERE TO PLAY AGAIN")
 }
