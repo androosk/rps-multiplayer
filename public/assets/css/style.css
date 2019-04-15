@@ -11,21 +11,21 @@ p {
   font-family: Arial, Helvetica, sans-serif;
   color: whitesmoke;
   font-size: 25px;
-  line-height: 35px;
+  line-height: 30px;
   text-align: center;
 }
 body {
-  background-image: url(../images/backgroundimage.jpg);
+  background-image: url(../images/landscape-4124096_1920.jpg);
   background-size: cover;
 }
 img {
   border: 6px solid yellow;
+  border-radius: 20px;
   object-fit: fill;
-  margin-top: 40px;
-  margin-right: 10px;
-  margin-bottom: 25px;
-  width: 150px;
-  height: 225px;
+  margin: 30px 5px 25px 5px;
+  width: 32%;
+  height: fit-content;
+  float: left;
   cursor: pointer;
 }
 input {
@@ -35,23 +35,47 @@ input {
 h2 {
   font-size: 50px;
   color: red;
-
 }
-.player-box {
+.image-1-smol, .image-2-smol, .image-3-smol {
+  display: none;
+}
+
+.border-background-box {
   border-radius: 25px;
   border: 4px solid rgb(57, 254, 251);
   background-color: rgb(57, 254, 251, .5);
-  margin: 30px 20px 40px 20px;
-  padding: 10px 10px 10px 10px;
-  font-weight: bolder;
+}
+.rule-box {
+  width: 50%;
+  margin: 30px auto 20px auto;
+  padding: 10px;
+}
+.game-box {
+  width: 60%;
+  margin: auto;
+}
+.name-box {
+  width: 50%;
+  padding-left: 3%;
+  margin: auto;
+}
+.actual-name-box {
+  margin: 10px auto 30px auto;
+  padding: 10px;
 }
 .info-area {
   height: 200px;
-  width: 100%;
+  width: 48%;
   border-radius: 10px;
   border: 4px solid rgb(57, 254, 251);
   background-color: rgb(57, 254, 251, .5);
   padding: 10px, 10px, 10px, 10px;
+  margin-right: 6px;
+}
+.chat-invite {
+  color: whitesmoke;
+  font-size: 15px;
+  line-height: 20px;
 }
 .chat-scroll {
   overflow: auto;
@@ -83,4 +107,75 @@ h2 {
   border-radius: 10px;
   padding: 4px 4px 4px 4px;
   cursor: pointer;
+}
+@media (max-width: 768px) {
+  p {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  img {
+    border: 6px solid yellow;
+    border-radius: 20px;
+    object-fit: fill;
+    margin-top: 40px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+    width: 28%;
+    height: fit-content;
+    float: left;
+    cursor: pointer;
+  }
+  .image-1-smol, .image-2-smol, .image-3-smol {
+    display: block;
+  }
+  .image-1, .image-2, .image-3 {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  p {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  img {
+    border: 2px solid yellow;
+    object-fit: fill;
+    margin-top: 20px;
+    margin-right: 0;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .stats-text, .chat-text, ul {
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .border-background-box {
+    margin-left: 8px;
+    border-radius: 10px;
+    border: 2px solid rgb(57, 254, 251);
+  }
+  .rule-box {
+    width: 100%;
+  }
+  .name-box {
+    width: 100%;
+  }
+  .player-box {
+    width: 35%;
+  }
+  .image-1-smol, .image-2-smol, .image-3-smol {
+    display: block;
+  }
+  .image-1, .image-2, .image-3 {
+    display: none;
+  }
+  .game-box {
+    width: 80%;
+    margin: auto;
+  }
+  .info-area {
+    height: 100px;
+    margin-left: 6px;
+    margin-right: 0;
+  }
 }
