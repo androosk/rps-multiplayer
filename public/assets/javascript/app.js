@@ -26,20 +26,11 @@ var block = ""
 var k = 0
 var count = -1
 var myBlock = ""
+var message = ""
 //Load preplay game board values
 renderStart()
 
-function addToChat() {
-  var chatMess = (messenger + " said " + currentMessage)
-  if (player === "one") {
-    var chatKey = gameDatabase.ref().child("/chats/chatOne/").push().key
-    gameDatabase.ref("/chats/chatOne/" + chatKey).set(chatMess)
-  }
-  else {
-    var chatKey = gameDatabase.ref().child("/chats/chatTwo/").push().key
-    gameDatabase.ref("/chats/chatTwo/" + chatKey).set(chatMess)
-  }
-}
+
 function loadPlayer() {
     playerObj = {
       name : playa,
@@ -62,67 +53,49 @@ function playerStart() {
   gameDatabase.ref("/chats/" + z + "/" + chatKey).set(chatMess)
   gameDatabase.ref("/chats/" + z + "/").onDisconnect().remove()
   $("#chat-message").attr("data", playa)
-  $("#chat-message").attr("number", "one")
+  $("#chat-message").attr("number", playerNumber)
   $("#name-here").prepend(playa)
-  $("#name-here").removeAttr("hidden")
   localPlayer = x
   otherPlayer = y
   $("#game-button-text").removeAttr("hidden")
   $("#player-name-input").attr("hidden", "true")
+  $("#instructions").text("Thank you for joining the game!")
   if (player1 === "" || player2 === "") {
     $("#game-button-text").text("WAITING FOR ANOTHER PLAYER")
   }
   playerStats()
 }
 function playerStats() {
-  if (player1 === "") {
-    statName = "Waiting"
-    statWins = "Wins: 0"
-    statLosses = "Losses: 0"
-    statTies = "Ties: 0"
-    fillOne()
+  if (player1 === "exists") {
+    $("#playerOne-name").text(newVar.playerOne.name)
+    $("#playerOne-wins").text("Wins: " + newVar.playerOne.wins)
+    $("#playerOne-losses").text("Losses: " + newVar.playerOne.losses)
+    $("#playerOne-ties").text("Ties: " + newVar.playerOne.ties)
   }
   else {
-    statName = newVar.playerOne.name
-    statWins = "Wins: " + newVar.playerOne.wins
-    statLosses = "Losses: " + newVar.playerOne.losses
-    statTies = "Ties: " + newVar.playerOne.ties
-    fillOne()
+    var current = "One"
+    fillBlank()
   }
-}
-function playerStats2 () {
-  if (player2 === "") {
-    statName = "Waiting"
-    statWins = "Wins: 0"
-    statLosses = "Losses: 0"
-    statTies = "Ties: 0"
-    fillTwo()
+  if (player2 === "exists") {
+    $("#playerTwo-name").text(newVar.playerTwo.name)
+    $("#playerTwo-wins").text("Wins: " + newVar.playerTwo.wins)
+    $("#playerTwo-losses").text("Losses: " + newVar.playerTwo.losses)
+    $("#playerTwo-ties").text("Ties: " + newVar.playerTwo.ties)
   }
   else {
-    statName = newVar.playerTwo.name
-    statWins = "Wins: " + newVar.playerTwo.wins
-    statLosses = "Losses: " + newVar.playerTwo.losses
-    statTies = "Ties: " + newVar.playerTwo.ties
-    fillTwo()
+    var current = "Two"
+    fillBlank()
+  }
+  function fillBlank() {
+    $("#player" + current + "-name").text("Waiting")
+    $("#player" + current + "-wins").text("Wins: 0")
+    $("#player" + current + "-losses").text("Losses: 0")
+    $("#player" + current + "-ties").text("Ties: 0")
   }
 }
-function fillOne() {
-  $("#playa1-name").text(statName)
-  $("#playa1-wins").text(statWins)
-  $("#playa1-losses").text(statLosses)
-  $("#playa1-ties").text(statTies)
-  playerStats2()
-}
-function fillTwo() {
-  $("#playa2-name").text(statName)
-  $("#playa2-wins").text(statWins)
-  $("#playa2-losses").text(statLosses)
-  $("#playa2-ties").text(statTies)
-}
-
 function renderStart () {
-  $("#playerone-idbox").text("Player 1: Waiting for player 1")
-  $("#playertwo-idbox").text("Player 2: Waiting for player 2")
+  $("#playerOne-idbox").text("Player 1: Waiting for player 1")
+  $("#playerTwo-idbox").text("Player 2: Waiting for player 2")
   $("#chat-area").empty()
 }
 function myFadeFunction() {
@@ -152,6 +125,7 @@ function delayStuff() {
       $("#game-block1").attr("data-name", "paper")
       $("#game-block2").attr("data-name", "scissors")
       }, 1000)
+      $("#instructions").text("Click on Rock, Paper or Scissors to make your move!")
     }
   }
 }
@@ -160,6 +134,7 @@ function evaluateMove() {
   playerTwoMove = newVar.playerTwo.move
   gameDatabase.ref().child("/players/playerOne/move").set("")
   gameDatabase.ref().child("/players/playerTwo/move").set("")
+  $("#instructions").text("Care for another round?")
   if (playerOneMove === "rock" && playerTwoMove === "paper") {
     playerTwoWins()
   }
@@ -210,9 +185,6 @@ function cleanUpOnAisle6(){
   buttonName = ""
   k = 0
   count = -1
-  $("#game-block0").removeAttr("data-name")
-  $("#game-block1").removeAttr("data-name")
-  $("#game-block2").removeAttr("data-name")
   $("#game-button-text").attr("style", "color: white; font-weight: normal;")
   $("#game-button-text").text("CLICK HERE TO PLAY AGAIN")
 }
@@ -221,14 +193,15 @@ gameDatabase.ref("/players/").on("value", function(snapshot) {
   newVar = snapshot.val()
   if (snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists() && newVar.playerOne.move === "" && newVar.playerTwo.move === "") {
     $("#game-button-text").text("EITHER PLAYER MAY CLICK HERE TO START ROUND")
+    $("#name-here").removeAttr("hidden")
   }
   if (snapshot.child("playerOne").exists() && player1 === "") {
     player1 = "exists"
-    $("#playerone-idbox").text("Player 1: " + newVar.playerOne.name)
+    $("#playerOne-idbox").text("Player 1: " + newVar.playerOne.name)
   }
   else if (snapshot.child("playerTwo").exists() && player2 === "") {
     player2 = "exists"
-    $("#playertwo-idbox").text("Player 2: " + newVar.playerTwo.name)
+    $("#playerTwo-idbox").text("Player 2: " + newVar.playerTwo.name)
     playerStats()
   }
    else if (snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists() && newVar.playerOne.move != "" && newVar.playerTwo.move != "") {
@@ -249,50 +222,57 @@ gameDatabase.ref("/inPlay/").on("value", function(snapshot) {
     cleanUpOnAisle6()
   }
 })
-
-//Listen for player one chat and add to chat box
-gameDatabase.ref("/chats/chatOne/").on("child_added", function(snapshot){
-  var message = snapshot.val()
-  var chatLine = $("<div class='chat-text'>").html(message)
-  $("#chat-area").append(chatLine)
-  $("#chat-area").scrollTop($("#chat-area")[0].scrollHeight)
+//Listen for player chat and add to chat box
+$("#chat-message").on("keypress", (event) => {
+  if (event.which === 13) {
+    var chatKey = gameDatabase.ref().child("/chats/chat" + playerNumber + "/").push().key
+    gameDatabase.ref("/chats/chat" + playerNumber + "/" + chatKey).set((($("#chat-message").attr("data")) + " said " + ($("#chat-message").val().trim())))
+    $("#chat-message").val("")
+  }
 })
-//Listen for player two chat and add to chat box
-gameDatabase.ref("/chats/chatTwo/").on("child_added", function(snapshot){
-  var message = snapshot.val()
-  var chatLine = $("<div class='chat-text'>").html(message)
-  $("#chat-area").append(chatLine)
+function addToChat() {
+  $("#chat-area").append(($("<div class='chat-text'>").html(message)))
   $("#chat-area").scrollTop($("#chat-area")[0].scrollHeight)
+ }
+//Listen for player one chat or player two chat and add to chat box
+gameDatabase.ref("/chats/chatOne/").on("child_added", function(snapshot){
+  message = snapshot.val()
+  addToChat()
+})
+gameDatabase.ref("/chats/chatTwo/").on("child_added", function(snapshot){
+  message = snapshot.val()
+  addToChat()
 })
 //Listen for when a player closes or refreshes their browser, and reset their session
 gameDatabase.ref("/players/").on("child_removed", function(snapshot) {
   if (snapshot.val().playerNum === "One") {
-    var chatMess = snapshot.val().name + " has left the game"
-    var chatKey = gameDatabase.ref().child("/chats/chatTwo/").push().key
-    gameDatabase.ref("/chats/chatTwo/" + chatKey).set(chatMess)
     player1 = ""
-    $("#playerone-idbox").text("Player 1: Waiting for player 1")
+    $("#playerOne-idbox").text("Player 1: Waiting for player 1")
     gameDatabase.ref().child("/inPlay/yesInPlay").set("false")
     if (player2 != "") {
+      var chatMess = snapshot.val().name + " has left the game"
+      var chatKey = gameDatabase.ref().child("/chats/chatTwo/").push().key
+      gameDatabase.ref("/chats/chatTwo/" + chatKey).set(chatMess)
       gameDatabase.ref().child("/players/playerTwo/wins").set(0)
       gameDatabase.ref().child("/players/playerTwo/losses").set(0)
       gameDatabase.ref().child("/players/playerTwo/ties").set(0)
     }
   }
   else {
-    var chatMess = snapshot.val().name + " has left the game"
-    var chatKey = gameDatabase.ref().child("/chats/chatOne/").push().key
-    gameDatabase.ref("/chats/chatOne/" + chatKey).set(chatMess)
     player2 = ""
-    $("#playertwo-idbox").text("Player 2: waiting for player 2")
+    $("#playerTwo-idbox").text("Player 2: waiting for player 2")
     gameDatabase.ref().child("/inPlay/yesInPlay").set("false")
     if (player1 != "") {
+      var chatMess = snapshot.val().name + " has left the game"
+      var chatKey = gameDatabase.ref().child("/chats/chatOne/").push().key
+      gameDatabase.ref("/chats/chatOne/" + chatKey).set(chatMess)
       gameDatabase.ref().child("/players/playerOne/losses").set(0)
       gameDatabase.ref().child("/players/playerOne/ties").set(0)
       gameDatabase.ref().child("/players/playerOne/wins").set(0)
     }
   }
   $("#game-button-text").text("WAITING FOR ANOTHER PLAYER")
+  $("#name-here").attr("hidden", "true")
 })
 // Listen for player name to be entered
 $("#player-name-input").on("keypress", (event) => {
@@ -310,17 +290,7 @@ $("#player-name-input").on("keypress", (event) => {
     loadPlayer()
   }
 })
-//Listen for player chat and add to chat box
-$("#chat-message").on("keypress", (event) => {
-  if (event.which === 13) {
-    var message = $("#chat-message").val().trim()
-    $("#chat-message").val("")
-    currentMessage = message
-    messenger = $("#chat-message").attr("data")
-    player = $("#chat-message").attr("number")
-    addToChat()
-  }
-})
+
 $("#game-start-button").click(function () {
   if (player1 === "exists" && player2 === "exists") {
   gamePlayTrue = {
@@ -341,8 +311,14 @@ $("#game-block0, #game-block1, #game-block2").on("click", function(){
   }
   if (localPlayer === "playerOne"  && newVar.playerOne.move != "" && newVar.playerTwo.move === "") {
     $("#game-button-text").text("WAITING FOR YOUR OPPONENT")
+    $("#game-block0").removeAttr("data-name")
+    $("#game-block1").removeAttr("data-name")
+    $("#game-block2").removeAttr("data-name")
   }
   if (localPlayer === "playerTwo"  && newVar.playerTwo.move != "" && newVar.playerOne.move === "") {
     $("#game-button-text").text("WAITING FOR YOUR OPPONENT")
+    $("#game-block0").removeAttr("data-name")
+    $("#game-block1").removeAttr("data-name")
+    $("#game-block2").removeAttr("data-name")
   }
 })
