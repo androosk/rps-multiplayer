@@ -134,6 +134,7 @@ h2 {
 }
 @media (max-width: 640px) {
   p {
+    color: greenyellow;
     font-size: 12px;
     line-height: 18px;
   }

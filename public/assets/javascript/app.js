@@ -21,10 +21,11 @@ var x = ""
 var y = ""
 var z = ""
 var localNode = ""
-var currentBlock = ["ROCK", "PAPER", "SCISSORS"]
+var currentBlock = ["ROCK", "PAPER", "SCISSORS", "ROCK", "PAPER", "SCISSORS"]
 var block = ""
 var k = 0
 var count = -1
+var counter = 3
 var myBlock = ""
 var message = ""
 //Load preplay game board values
@@ -108,7 +109,7 @@ function myFadeFunction() {
     delayStuff()
   }
 function delayStuff() {
-  if (count < 3) {
+  if (count < counter) {
   setTimeout(function() {
     $(block).fadeTo(500, 0.5)
     $(block).fadeTo(500, 1.0)
@@ -121,9 +122,9 @@ function delayStuff() {
     if (refErence === "play") {
     setTimeout(function() {
       $("#game-button-text").text("SHOOT!")
-      $("#game-block0").attr("data-name", "rock")
-      $("#game-block1").attr("data-name", "paper")
-      $("#game-block2").attr("data-name", "scissors")
+      $("#game-block0, #game-block3").attr("data-name", "rock")
+      $("#game-block1, #game-block4").attr("data-name", "paper")
+      $("#game-block2, #game-block5").attr("data-name", "scissors")
       }, 1000)
       $("#instructions").text("Click on Rock, Paper or Scissors to make your move!")
     }
@@ -185,6 +186,7 @@ function cleanUpOnAisle6(){
   buttonName = ""
   k = 0
   count = -1
+  counter = 3
   $("#game-button-text").attr("style", "color: white; font-weight: normal;")
   $("#game-button-text").text("CLICK HERE TO PLAY AGAIN")
 }
@@ -215,6 +217,11 @@ gameDatabase.ref("/players/").on("value", function(snapshot) {
 gameDatabase.ref("/inPlay/").on("value", function(snapshot) {
   var refErence = $("#game-button-text").attr("state")
   if (snapshot.child("yesInPlay").val() === "true") {
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    if (w < 768) {
+      count = 2
+      counter = 6
+    }
     myFadeFunction()
   }
   else if (refErence === "play") {
@@ -302,7 +309,7 @@ $("#game-start-button").click(function () {
     alert("You're waiting for another player to join")
   }
 })
-$("#game-block0, #game-block1, #game-block2").on("click", function(){
+$("#game-block0, #game-block1, #game-block2, #game-block3, #game-block4, #game-block5").on("click", function(){
   event.preventDefault()
   buttonName = $(this).attr("data-name")
   if (buttonName != undefined) {
