@@ -15,17 +15,18 @@ p {
   text-align: center;
 }
 body {
-  background-image: url(../images/landscape-4124096_1920.jpg);
-  background-size: cover;
+  background-color: black;
 }
 img {
   border: 6px solid yellow;
   border-radius: 20px;
   object-fit: fill;
   margin: 30px 5px 25px 5px;
-  width: 32%;
-  height: fit-content;
-  float: left;
+  width: 24%;
+  height: auto;
+  display: inline-block;
+  /* text-align: center; */
+  /* float: left; */
   cursor: pointer;
 }
 input {
@@ -53,6 +54,7 @@ h2 {
 .game-box {
   width: 60%;
   margin: auto;
+  text-align: center;
 }
 .name-box {
   width: 50%;
@@ -113,18 +115,19 @@ h2 {
     font-size: 18px;
     line-height: 22px;
   }
-  img {
+  /* img {
     border: 6px solid yellow;
     border-radius: 20px;
     object-fit: fill;
     margin-top: 40px;
     margin-right: 10px;
     margin-bottom: 25px;
-    width: 28%;
-    height: fit-content;
+    width: 24%;
+    height: auto;
     float: left;
+    display: inline-block;
     cursor: pointer;
-  }
+  } */
   .image-1-smol, .image-2-smol, .image-3-smol {
     display: block;
   }
@@ -135,7 +138,7 @@ h2 {
 @media (max-width: 640px) {
   p {
     color: greenyellow;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
   }
   img {
@@ -145,6 +148,9 @@ h2 {
     margin-right: 0;
     margin-bottom: 12px;
     cursor: pointer;
+  }
+  .game-button {
+    background-color:  rgb(57, 254, 251, .5);
   }
   .stats-text, .chat-text, ul {
     font-size: 12px;
@@ -165,7 +171,7 @@ h2 {
     width: 35%;
   }
   .image-1-smol, .image-2-smol, .image-3-smol {
-    display: block;
+    display: inline-block;
   }
   .image-1, .image-2, .image-3 {
     display: none;
