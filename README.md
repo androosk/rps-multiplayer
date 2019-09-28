@@ -1,6 +1,6 @@
-# rps-multiplayer
-Multi-Player Rock Paper Scissors Game Using Firebase
----
+# Classic Multi-Player Rock, Paper, Scissors
+![Screenshot](screenshot.png)
+Play this classic game of RoChamBo online with a friend!
 
 ## Game Play
 
